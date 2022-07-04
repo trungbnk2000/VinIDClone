@@ -49,7 +49,7 @@ const DetailScreen = () => {
     }
 
     return (
-        <SafeAreaView style={{flex: 1, backgroundColor: COLORS.light}}>
+        <View style={{flex: 1, backgroundColor: COLORS.light}}>
             <Animated.ScrollView    
                 scrollEventThrottle={16}
             >
@@ -157,7 +157,7 @@ const DetailScreen = () => {
                     </Text>
                 </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </View>
     );
 };
 

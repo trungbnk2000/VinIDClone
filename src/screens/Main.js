@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { StatusBar, FlatList, View , StyleSheet, Text, Image, ScrollView, TextInput, Dimensions, Pressable} from "react-native";
+import { ImageBackground, StatusBar, FlatList, View , StyleSheet, Text, Image, ScrollView, TextInput, Dimensions, Pressable} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import COLORS from "../colors/colors";
@@ -88,7 +88,7 @@ const MainScreen = ({navigation}) => {
     }, [imageList])
 
     return(
-    <SafeAreaView style={{backgroundColor: COLORS.white, flex: 1}}>
+    <View style={{backgroundColor: COLORS.white, flex: 1}}>
         <StatusBar translucent={false} backgroundColor={COLORS.white} barStyle="dark-content"  />
             <View style={style.header}>
                 <View>
@@ -97,98 +97,127 @@ const MainScreen = ({navigation}) => {
                 </View>
                 <Image source={require('../images/cart.png')} style={style.cart}/>
             </View>
-        <ScrollView>
-            <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20}}>
-                <View style={style.searchContainer}>
-                <Image source={require('../images/search.png')} style={{height: 20, width: 20}} />
-                <TextInput placeholder="Tìm voucher" />
+        <FlatList 
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+            style={{flexGrow: 1}}
+            ListHeaderComponent={
+                <>
+                <View style={{flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20}}>
+                    <View style={style.searchContainer}>
+                    <Image source={require('../images/search.png')} style={{height: 20, width: 20}} />
+                    <TextInput placeholder="Tìm voucher" />
+                    </View>
                 </View>
-            </View>
-            <FlatList 
-                data={menuData}
-                renderItem={_renderMenu}
-                keyExtractor={(item, index) => index.toString()}
-                contentContainerStyle={{
-                    marginTop: 10,
-                    flexGrow: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-                numColumns={3}
-            /> 
-            <View style={{marginTop: 40, paddingHorizontal: 15, width: width, height: 150}}>
-                <ScrollView pagingEnabled horizontal contentContainerStyle={{width: width * carouselData.length * 92.4 / 100, height: 150}} ref={stepCarousel}>
-                    {imageList.map((item, index) => (
-                        <Image 
-                            key = {index}
-                            source = {item.img}
-                            style = {{width: width * 92.4 / 100, height: '100%', resizeMode: 'cover', borderRadius: 10}}
+                <FlatList 
+                    data={menuData}
+                    renderItem={_renderMenu}
+                    keyExtractor={(item, index) => index.toString()}
+                    contentContainerStyle={{
+                        flexGrow: 1,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                    numColumns={3}
+                    key={3}
+                /> 
+                <View style={{marginTop: 40, paddingHorizontal: 15, width: width, height: 150}}>
+                    <ScrollView pagingEnabled horizontal contentContainerStyle={{width: width * carouselData.length * 92.4 / 100, height: 150}} ref={stepCarousel}>
+                        {imageList.map((item, index) => (
+                            <Image 
+                                key = {index}
+                                source = {item.img}
+                                style = {{width: width * 92.4 / 100, height: '100%', resizeMode: 'cover', borderRadius: 10}}
+                            />
+                        ))}
+                    </ScrollView>
+                </View>
+                <ImageBackground source={require('../images/gradient_background.png')} resizeMode="cover" style={{flex:1}}>
+                <View style={style.flashSaleContainer}>
+                    <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
+                        <Text style = {{color: COLORS.dark, fontWeight : 'normal', fontSize: 20}}>
+                            Flash Sale
+                        </Text>
+                        <Text style ={{color: COLORS.blue, fontSize: 15, fontWeight: 'normal', marginTop: 4}}>
+                            Xem tất cả
+                        </Text>
+                    </View>
+                    <FlatList 
+                        data={itemList} 
+                        horizontal 
+                        contentContainerStyle={{
+                            marginTop: 10,
+                        }}
+                        renderItem={_renderItem}
                         />
-                    ))}
-                </ScrollView>
-            </View>
-            <View style={{marginTop: 30, paddingHorizontal: 15}}>
-                <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-                    <Text style = {{color: COLORS.dark, fontWeight : 'normal', fontSize: 20}}>
-                        Hot Deal
-                    </Text>
-                    <Text style ={{color: COLORS.blue, fontSize: 15, fontWeight: 'normal', marginTop: 4}}>
-                        Xem tất cả
-                    </Text>
                 </View>
-                <FlatList 
-                    data={itemList} 
-                    horizontal 
-                    contentContainerStyle={{
-                        marginTop: 10,
-                    }}
-                    renderItem={_renderItem}
-                     />
-            </View>
-            <View style={{marginTop: 30, paddingHorizontal: 15}}>
-                <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-                    <Text style = {{color: COLORS.dark, fontWeight : 'normal', fontSize: 20}}>
-                        Cho trẻ đi chơi
-                    </Text>
-                    <Text style ={{color: COLORS.blue, fontSize: 15, fontWeight: 'normal', marginTop: 4}}>
-                        Xem tất cả
-                    </Text>
+                </ImageBackground>
+                <View style={{marginTop: 20, paddingHorizontal: 15}}>
+                    <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
+                        <Text style = {{color: COLORS.dark, fontWeight : 'normal', fontSize: 20}}>
+                            Hot Deal
+                        </Text>
+                        <Text style ={{color: COLORS.blue, fontSize: 15, fontWeight: 'normal', marginTop: 4}}>
+                            Xem tất cả
+                        </Text>
+                    </View>
+                    <FlatList 
+                        data={itemList} 
+                        horizontal 
+                        contentContainerStyle={{
+                            marginTop: 10,
+                        }}
+                        renderItem={_renderItem}
+                        />
                 </View>
-                <FlatList 
-                    data={itemList} 
-                    horizontal 
-                    contentContainerStyle={{
-                        marginTop: 10,
-                    }}
-                    renderItem={_renderItem}
-                     />
-            </View>
-            <View style={{marginTop: 30, paddingHorizontal: 15}}>
-                <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-                    <Text style = {{color: COLORS.dark, fontWeight : 'normal', fontSize: 20}}>
-                        Vi vu đón hè
-                    </Text>
-                    <Text style ={{color: COLORS.blue, fontSize: 15, fontWeight: 'normal', marginTop: 4}}>
-                        Xem tất cả
-                    </Text>
+                <View style={{paddingHorizontal: 15}}>
+                    <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
+                        <Text style = {{color: COLORS.dark, fontWeight : 'normal', fontSize: 20}}>
+                            Cho trẻ đi chơi
+                        </Text>
+                        <Text style ={{color: COLORS.blue, fontSize: 15, fontWeight: 'normal', marginTop: 4}}>
+                            Xem tất cả
+                        </Text>
+                    </View>
+                    <FlatList 
+                        data={itemList} 
+                        horizontal 
+                        contentContainerStyle={{
+                            marginTop: 10,
+                        }}
+                        renderItem={_renderItem}
+                        />
                 </View>
-                <FlatList 
-                    data={itemList} 
-                    horizontal 
-                    contentContainerStyle={{
-                        marginTop: 10,
-                    }}
-                    renderItem={_renderItem}
-                     />
-            </View>
-        </ScrollView>
-    </SafeAreaView>
+                <View style={{paddingHorizontal: 15}}>
+                    <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
+                        <Text style = {{color: COLORS.dark, fontWeight : 'normal', fontSize: 20}}>
+                            Vi vu đón hè
+                        </Text>
+                        <Text style ={{color: COLORS.blue, fontSize: 15, fontWeight: 'normal', marginTop: 4}}>
+                            Xem tất cả
+                        </Text>
+                    </View>
+                    <FlatList 
+                        data={itemList} 
+                        horizontal 
+                        contentContainerStyle={{
+                            marginTop: 10,
+                        }}
+                        renderItem={_renderItem}
+                        />
+                </View>
+                </>
+            }
+        />
+    </View>
     );
 };
 
 const style = StyleSheet.create({
     header: {
-        paddingVertical: 20,
+        backgroundColor: COLORS.white,
+        elevation: 5,
+        paddingVertical: 10,
         paddingHorizontal: 20,
         justifyContent: 'space-between',
         flexDirection: 'row',
@@ -204,7 +233,7 @@ const style = StyleSheet.create({
     },
 
     searchContainer: {
-        height: 50, 
+        height: 40, 
         backgroundColor: COLORS.white,
         flex: 1,
         flexDirection: 'row',
@@ -222,7 +251,9 @@ const style = StyleSheet.create({
         paddingHorizontal: 20,          
     },
 
-    listCard: {                 
+    listCard: {   
+        marginVertical: 4,
+        marginHorizontal: 5,          
         height: 90,
         width: 120,
         backgroundColor: COLORS.white,
@@ -255,8 +286,13 @@ const style = StyleSheet.create({
         marginHorizontal: 5,
         borderRadius: 5,
         marginBottom: 20,
-        elevation: 12,
-        }
+        elevation: 5,
+    },
+
+    flashSaleContainer: {
+        marginTop: 20, 
+        paddingHorizontal: 15,
+    }
 })
 
 export default MainScreen;
